@@ -40,21 +40,21 @@ netstat -tlun | grep 22
 
 对称加密方式： 采用单匙密码系统的加密方法，同一个密匙可以同时用作信息的加密和解密。
 
-![image-20191224150301792](/home/liutao/Documents/Study/Others/imgs/ssh/ssh.png)
+![image-20191224150301792](imgs/ssh/ssh.png)
 
 非对称加密：又名“公开密匙加密算法”，非对称加密算法需要两个密匙：公开密匙（publickey）和私有密匙（privatekey）。
 
-![image-20191224150528384](/home/liutao/Documents/Study/Others/imgs/ssh/ssh2.png)
+![image-20191224150528384](imgs/ssh/ssh2.png)
 
 可以把公钥想象成锁，私钥想象成钥匙。如果需要共享，则把对方的公钥和自己的公钥来对数据进行加密，这样对方使用其私钥加密码可以访问数据，自己也可以通过自己的私钥和密码访问数据，不需要知道对方的密码。
 
-![image-20191224151139107](/home/liutao/Documents/Study/Others/imgs/ssh/ssh3.png)
+![image-20191224151139107](imgs/ssh/ssh3.png)
 
-![image-20191224151302203](/home/liutao/Documents/Study/Others/imgs/ssh/ssh4.png)
+![image-20191224151302203](imgs/ssh/ssh4.png)
 
 在首次访问服务器时会下载服务器的公钥到本地，在之后的本地向服务器传送的数据会**使用公钥进行加密**，服务器在接受到数据后使用**私钥对数据进行解密**。
 
-![image-20191224151905544](/home/liutao/Documents/Study/Others/imgs/ssh/ssh5.png)
+![image-20191224151905544](imgs/ssh/ssh5.png)
 
 注意，**ssh保护的仅仅是在网络传输中的安全**，如果本机在传输之前就已经中了木马，在传输过程中再安全也没有意义。
 
@@ -66,11 +66,11 @@ netstat -tlun | grep 22
 
 Linux在使用过程中既是一个SSH服务端，也是一个SSH客户端。
 
-![image-20191224152246157](/home/liutao/Documents/Study/Others/imgs/ssh/ssh6.png)
+![image-20191224152246157](imgs/ssh/ssh6.png)
 
 GSSAPI(默认开启)需要DNS验证，使得登录异常缓慢，所以一般需要关闭(客户端文件)。
 
-![image-20191224153027049](/home/liutao/Documents/Study/Others/imgs/ssh/ssh7.png)
+![image-20191224153027049](imgs/ssh/ssh7.png)
 
 PermitRootLogin一般设置为No，通过普通用户登录。更安全的方式是使用公钥对验证。
 
@@ -82,7 +82,7 @@ PasswordAuthentication一般也设置为No，公钥验证登录。**切记要在
 * scp username@ip:/path path 下载 scp root@192.168.44.2:/root/test.txt **.**
 * scp -r path username@ip/path 上传 scp -r /root/123 root@192.168.44.2:/root
 
-![image-20191224154151806](/home/liutao/Documents/Study/Others/imgs/ssh/ssh8.png)
+![image-20191224154151806](imgs/ssh/ssh8.png)
 
 ## 5. SSH连接工具
 
@@ -91,9 +91,9 @@ PasswordAuthentication一般也设置为No，公钥验证登录。**切记要在
 
 ## 6. SSH密钥对登陆
 
-![image-20191224155745247](/home/liutao/Documents/Study/Others/imgs/ssh/ssh9.png)
+![image-20191224155745247](imgs/ssh/ssh9.png)
 
-![image-20191224160048674](/home/liutao/Documents/Study/Others/imgs/ssh/ssh10.png)
+![image-20191224160048674](imgs/ssh/ssh10.png)
 
 ```shell
 # 在本地生成 公钥和私钥
@@ -112,5 +112,5 @@ vi /etc/selinux/config # 设置为 disabled
 service sshd restart
 ```
 
-![image-20191224160745002](/home/liutao/Documents/Study/Others/imgs/ssh/ssh11.png)
+![image-20191224160745002](imgs/ssh/ssh11.png)
 
