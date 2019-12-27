@@ -104,10 +104,148 @@ git config --global user.email _mail@a.com
 
 ```shell
 git status # 查看工作区、暂存区、本地库的状态
-git add <file> # 将file添加到暂存区
+git add <file> # 将文件的新建或修改添加到暂存区
 git rm --cached <file> # 将file从暂存区撤回(不会动工作区的文件)
 git commit -m <message> # 将暂存区的文件提交到本地库
 git checkout -- <file> # 撤销工作区的变化
 git reset HEAD <file> # 
+```
+
+**版本的历史记录**
+
+```shell
+git log # 查看版本的记录 git log --pretty=oneline
+# HEAD 是一个指针，指向当前的版本
+git log --pretty=oneline # 更直观的查看
+git log --oneline # hash值只显示一部分
+git reflog # 相比log 多了commit信息，和HEAD的移动指针操作
+```
+
+![image-20191227130739336](imgs/git/git11.png)
+
+### **2.3 版本穿梭**
+
+基于**HEAD**指针进行版本的前进或后退
+
+* 基于索引值(**推荐**)
+
+  ```shell
+  git reset --hard $index # $index索引值即hash值
+  ```
+
+* 使用^符号：只能后退
+
+  ```shell
+  git reset --hard HEAD^ # 加一个 ^ 代表回退一步
+  ```
+
+* 使用~符号：只能后退
+
+  ```shell
+  git reset --hard HEAD~n # 后退n步
+  ```
+
+**reset的三个参数mixed、soft、hard的区别**
+
+* --soft：仅仅在本地库移动head指针
+* --mixed：在本地库移动head指针，重置暂存区
+* --hard：在本地库移动head指针，重置暂存区，重置工作区
+
+##### 恢复删除文件
+
+```shell
+# 前提：删除前，文件存在时的状态提交到了本地库
+# 回退到文件存在的版本
+git reset --hard [HEAD]
+	# 删除操作已经提交到本地库，指针位置指向历史记录
+	# 删除操作尚未提交到本地库，指针位置使用HEAD
+```
+
+**比较文件**
+
+```shell
+git diff <file> # 工作区和暂存区比较
+git diff HEAD <file> # 工作区和本地库比较
+git diff HEAD^ <file> # 工作区和某一个历史版本比较
+# 不带文件名，比较多个文件
+```
+
+### 2.4 分支操作
+
+```shell
+git branch _name_ #  创建一个新的分支
+git branch -v # 查看分支
+git checkout _branch_name # 切换到 _branch_name分支
+# 合并分支
+  # 1. 切换到被合并的分支上
+  git checkout master
+  # 2. 执行merge命令(和哪个分支合并,有新内容的分支)
+  git merge hot_fix # 将hot_fix分支的内容加到master内
+  # 解决冲突(两个分支修改了同一个文件的同一行,git是以行为单位)
+  	# 手工修改冲突文件
+  	git add <file>
+  	git commit -m # 注意，在这里不能带文件名
+```
+
+![image-20191227135238301](imgs/git/git12.png)
+
+
+
+![image-20191227140012569](imgs/git/git13.png)
+
+### 3. Github
+
+**本地库和远程库的link**
+
+```shell
+# 创建**本地库和远程库的link**并给仓库起别名
+git remote add origin(别名) 仓库地址
+# 推送
+git push origin(别名) master(分支)
+```
+
+**远程库到本地库**
+
+```shell
+git clone 仓库地址
+# 克隆的三个效果
+   # 1. 完整把远程库下载到本地
+   # 2. 创建origin远程地址别名
+   # 3. 初始化本地库
+```
+
+**邀请加入团队**
+
+**远程库的拉取**
+
+```shell
+# 保险、慎重的操作
+git fetch origin master(远程分支名) # 把远程库下载到本地库,并不对本地文件合并
+git merge origin(远程地址别名)/master(远程分支名) # 合并远程库
+
+# pull = fetch + merge
+git pull origin(远程地址别名) master(远程分支名)
+```
+
+**冲突解决**
+
+```shell
+# 先拉取
+git pull origin master
+# 按照分支解决的办法解决冲突
+ # 修改冲突文件
+git add <file>
+git commit -m '' # 不能加文件名
+git push origin master # 推送到远程库
+```
+
+**SSH免密操作**
+
+```shell
+# 1. 将本机的公钥添加到github服务器
+# 2. 添加远程库的SSH地址
+git remote add origin_ssh ssh_address
+# 3. 推送到 SSH地址
+git push origin_ssh master
 ```
 
