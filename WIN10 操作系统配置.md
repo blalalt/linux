@@ -84,6 +84,8 @@ Infinity (新建标签)
 
 FSCpature (截图工具)
 
+Snapate  (截图工具)
+
 KMS (激活工具)
 
 Font Replace Utility (字体替换工具，新微软雅黑)
